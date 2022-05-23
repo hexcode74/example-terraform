@@ -12,6 +12,14 @@ resource "aws_instance" "example-ec2" {
     delete_on_termination = true
   }
 
+# Configure metadata for use of IMDSv2 on a new instance
+  metadata_options {
+    http_endpoint               = "enabled"
+    http_put_response_hop_limit = "1"
+    http_tokens                 = "required"
+    instance_metadata_tags      = "disabled"
+  }
+
   tags = merge(
   var.default_tags,
   {Service = "ec2"},
